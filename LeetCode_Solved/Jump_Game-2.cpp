@@ -22,9 +22,43 @@ Problem Link: https://leetcode.com/problems/jump-game-ii/
 */
 
 
+// Method-1 ( Recursive )
+
+class Solution {
+public:
+ 
+   long long int jump(vector<int> nums , int curr, int dest)
+    {       
+            if(curr>=dest) return 0; 
+            long long int tmp=INT_MAX;
+			
+            //Try Every jump 1 to nums[curr] jump
+            //and find minimum steps need to reach to end
+			
+            for(int i=1;i<=nums[curr];i++)
+            {
+                tmp=min(tmp,1+jump(nums,curr+i,dest));  
+            } 
+         return tmp;  
+    }
+    
+    int jump(vector<int>& nums) { 
+         return jump(nums,0,nums.size()-1);
+    }
+};
+
+/*Time Complexity: O(k^n), Where, k is max element of nums and n is size of nums.
+Space Complexity: O(1). */
+
+
+//Method-2 Single Pass
+
+
 class Solution {
 public:
     int jump( vector<int>& nums ) {
+	    
+	if( nums.size() < 2 ) return 0;   //base case
         
         int n = size(nums), i = 0, maxReachable = 0, lastJumpedPos = 0, jumps = 0;
 	    while( lastJumpedPos < n - 1 ) {  
@@ -38,3 +72,6 @@ public:
 	    return jumps;
     }
 };
+
+
+//Time Complexity- O(n)
