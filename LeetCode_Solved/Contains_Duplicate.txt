@@ -1,0 +1,73 @@
+Problem Statement:
+Given an integer array nums, return true if any value appears at least twice in the array, and return false if every element is distinct.
+
+ 
+
+Example 1:
+
+Input: nums = [1,2,3,1]
+Output: true
+Example 2:
+
+Input: nums = [1,2,3,4]
+Output: false
+
+
+
+Brute Force:
+
+class Solution {
+public:
+    bool containsDuplicate(vector<int>& nums) {
+        int n = nums.size();
+        
+        sort(nums.begin(), nums.end());
+        
+        for(int i = 0; i < n-1; i++){
+            if(nums[i] == nums[i+1]) return true;
+        }
+        return false;
+    }
+};
+
+
+
+Better: (O(nlogn))
+
+class Solution {
+public:
+    bool containsDuplicate(vector<int>& nums) {
+        int n = nums.size();
+        
+        set<int> s;
+        
+        for(int i = 0; i < n; i++){
+            if(!s.insert(nums[i]).second)
+                return true;
+        }
+        return false;
+    }
+};
+
+if(!s.insert(nums[i]).second): This line inserts the current element nums[i] into the set s using the insert function. The insert function returns a pair of two values - the first value is an iterator pointing to the newly inserted element, and the second value is a boolean flag indicating whether the insertion was successful. The ! operator in front of s.insert negates the boolean flag so that the condition is true if the insertion fails (i.e., the element already exists in the set). Thus, if the element is already in the set, the function immediately returns true indicating that a duplicate has been found.
+
+
+
+
+Optimal: O(logn)
+
+class Solution {
+public:
+    bool containsDuplicate(vector<int>& nums) {
+        unordered_set<int> hashSet;
+        for(int num : nums) {
+            if(hashSet.count(num) > 0) {
+                return true;
+            }
+            hashSet.insert(num);
+        }
+        return false;
+    }
+};
+
+
