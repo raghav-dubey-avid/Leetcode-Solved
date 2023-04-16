@@ -1,0 +1,54 @@
+Problem Statement:
+
+You are given an integer array height of length n. There are n vertical lines drawn such that the two endpoints of the ith line are (i, 0) and (i, height[i]).
+
+Find two lines that together with the x-axis form a container, such that the container contains the most water.
+
+Return the maximum amount of water a container can store.
+
+Notice that you may not slant the container.
+
+
+Input: height = [1,8,6,2,5,4,8,3,7]
+Output: 49
+Explanation: The above vertical lines are represented by array [1,8,6,2,5,4,8,3,7]. In this case, the max area of water (blue section) the container can contain is 49.
+Example 2:
+
+Input: height = [1,1]
+Output: 1
+
+
+
+Solution:
+
+class Solution {
+public:
+
+    int maxArea(vector<int>& height) {
+        int n = height.size();
+        int l = 0, r = n-1;
+        int max_area = 0;
+
+        while(l < r) {
+            int area_so_far = min(height[l], height[r]) * (r-l);
+            max_area = max(max_area, area_so_far);
+            if(height[l] < height[r]) {
+                l++;
+            }
+            else {
+                r--;
+            }
+        }
+        return max_area;
+    }
+};
+
+
+// T(n) - O(n)
+// S(n) - O(1)
+
+
+// We are multiplying (right - left) with min(height[left], height[right]) to calculate the area of the container formed by the two pointers.
+
+The width of the container is right - left, which is the distance between the two pointers. The height of the container is determined by the minimum of the two heights at the pointers, as we can't tilt the container. Therefore, the area of the container is the product of its width and height, which is min(height[left], height[right]) * (right - left)
+
