@@ -1,0 +1,70 @@
+Problem Statement:
+
+Given an integer n, return an array ans of length n + 1 such that for each i (0 <= i <= n), ans[i] is the number of 1's in the binary representation of i.
+
+ 
+
+Example 1:
+
+Input: n = 2
+Output: [0,1,1]
+Explanation:
+0 --> 0
+1 --> 1
+2 --> 10
+Example 2:
+
+Input: n = 5
+Output: [0,1,1,2,1,2]
+Explanation:
+0 --> 0
+1 --> 1
+2 --> 10
+3 --> 11
+4 --> 100
+5 --> 101
+ 
+
+Constraints:
+
+0 <= n <= 105
+
+
+
+Solution:
+
+=> We will take the intuition as x[i] = i/2 + i%2
+
+=> Where i%2 depends whether n is odd or even
+
+=> For odd number, we simply add 1 to y/2+1
+
+=> i%2 takes care of that.
+
+=> Example:
+if n = 4;
+x[0] = 0, (intialise it before)
+x[1] = x[1/2] + 1%2
+x[1] = 0 + 1 (odd number we add 1)
+x[2] = 1 + 0
+x[3] = 1 + 1 = 2
+x[4] = 1
+
+=> Now store it in an array and return the answer.
+
+
+
+Here is the C++ code for the explanation:
+
+class Solution {
+public:
+    vector<int> countBits(int n) {
+        vector<int> answer(n+1);
+        answer[0] = 0;
+
+        for(int i = 1; i <= n; ++i) {
+            answer[i] = answer[i/2] + i%2;
+        }
+        return answer;
+    }
+};
