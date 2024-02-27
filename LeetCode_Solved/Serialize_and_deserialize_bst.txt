@@ -1,0 +1,64 @@
+Q-> Serialization is the process of converting a data structure or object into a sequence of bits so that it can be stored in a file or memory buffer, or transmitted across a network connection link to be reconstructed later in the same or another computer environment.
+
+Design an algorithm to serialize and deserialize a binary tree. There is no restriction on how your serialization/deserialization algorithm should work. You just need to ensure that a binary tree can be serialized to a string and this string can be deserialized to the original tree structure.
+
+Example 1:
+
+Input: root = [1,2,3,null,null,4,5]
+Output: [1,2,3,null,null,4,5]
+
+
+
+Example 2:
+
+Input: root = []
+Output: []
+ 
+
+* Constraints:
+
+The number of nodes in the tree is in the range [0, 104].
+-1000 <= Node.val <= 1000
+
+
+
+
+Solution : C++
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Codec {
+public:
+
+    // Encodes a tree to a single string.
+    // Preorder traversal
+    string serialize(TreeNode* root) {
+        if(!root) return "x";
+        return to_string(root->val) + "," + serialize(root->left) + "," 
+        + serialize(root->right);
+    }
+
+    // Decodes your encoded data to tree.
+    TreeNode* deserialize(string data) {
+        istringstream in(data);
+        return deserializeHelper(in);
+    }
+
+    private:
+    TreeNode* deserializeHelper(istringstream& in) {
+        string val;
+        getline(in, val, ',');
+        if (val == "x") return nullptr;
+        TreeNode* node = new TreeNode(stoi(val));
+        node->left = deserializeHelper(in);
+        node->right = deserializeHelper(in);
+        return node;
+    }
+};
